@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적혈구제제 정밀 오더 가이드</title>
+    <style>
+        :root { --primary: #1a2a3a; --accent: #d63031; --bg: #f4f7f6; --text: #2d3436; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); margin: 0; padding: 20px; padding-bottom: 180px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .section { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { font-size: 1.2rem; color: var(--primary); border-left: 6px solid var(--accent); padding-left: 12px; margin-bottom: 20px; }
+        h3 { font-size: 1rem; color: #fff; background: #576574; padding: 8px 15px; border-radius: 6px; margin-top: 25px; }
+        
+        .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 650px) { .check-grid { grid-template-columns: 1fr; } }
+        
+        .check-item { display: flex; align-items: flex-start; padding: 10px; border-radius: 8px; border: 1px solid #dfe6e9; cursor: pointer; transition: background 0.2s; }
+        .check-item:hover { background: #f9f9f9; }
+        .check-item input { margin-top: 4px; margin-right: 12px; min-width: 18px; min-height: 18px; }
+        .check-item span { font-size: 0.9rem; font-weight: 500; }
+
+        /* 결과 창 및 가독성 개선 */
+        .result-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #1a2a3a; color: white; padding: 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.3); z-index: 1000; }
+        .result-content { max-width: 900px; margin: 0 auto; }
+        .result-title { font-size: 0.85rem; color: #b2bec3; margin-bottom: 4px; }
+        .result-name { font-size: 1.4rem; font-weight: bold; color: #f1c40f; margin-bottom: 15px; display: block; }
+        
+        /* 안내 문구 배경색 및 글자색 가독성 확보 */
+        .manage-card { display: none; margin-top: 8px; padding: 12px 15px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; line-height: 1.4; border-left: 5px solid transparent; }
+        .visible { display: block !important; }
+        
+        #manage-basic { background: #ffffff; color: #1a2a3a; border-color: #2ecc71; }
+        #manage-LR { background: #e1f5fe; color: #01579b; border-color: #03a9f4; } /* 백혈구제거 */
+        #manage-WS { background: #fff9c4; color: #827717; border-color: #fbc02d; } /* 세척 */
+        #manage-IR { background: #ffebee; color: #b71c1c; border-color: #f44336; } /* 방사선 */
+        
+        .important-txt { color: #d63031; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🏥 수혈 오더 시스템 (RBC 고도화판)</h1>
+        <p>전공의 업무 효율을 위한 정밀 체크리스트</p>
+    </div>
+
+    <div class="section">
+        <h2>1. 기본 체크리스트</h2>
+        <div class="check-grid">
+            <label class="check-item"><input type="checkbox"><span>Hb < 7 g/dL (수혈 적극 권장)</span></label>
+            <label class="check-item"><input type="checkbox"><span>Hb 7~10 g/dL (이익과 위해를 고려 / 임상 지표 종합 고려 - 실혈 속도 빠름, 관상동맥 등 심잘질환, 폐기능 이상, 뇌순환 이상)</span></label>
+            <label class="check-item"><input type="checkbox"><span>급성관동맥증후군 환자에서 Hb >10g/dL인 경우 적혈구 수혈은 사망률을 증가시킬 수 있어 권장되지 않음</span></label>
+            <label class="check-item"><input type="checkbox"><span>1단위 처방 후 재평가 원칙</span></label>
+            <label class="check-item"><input type="checkbox"><span>독립된 2회 채혈 (ABO/RhD 확인) 단, 기관의 정책에 따라 전자 환자확인시스템(RFID, 바코드 등)이 구축되 었거나 2회의 채혈이 불가능한 환자(신생아 및 응급수혈 등)의 경우 예외</span></label>
+            <label class="check-item"><input type="checkbox"><span>비예기항체 선별검사 완료 ★</span></label>
+            <label class="check-item"><input type="checkbox"><span>수혈 동의서 서명 확인</span></label>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. 특수 제제 적응증 (누락 없는 정밀 체크)</h2>
+        
+        <h3>[백혈구 여과 제거]</h3>
+        <div class="check-grid">
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>발열성 비용혈성 반응(FNHTR) 경험자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>향후 지속적/반복 수혈 예상자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>백혈병, 골수형성이상증후군(MDS)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>골수부전증, 재생불량성 빈혈</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>조혈모세포이식 예정/완료자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>장기이식 예정/완료자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>면역결핍증(선천성/AIDS 등)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>항암화학요법 치료 중인 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>생후 4주 이내의 신생아</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="LR"><span>심혈관 수술 대상 환자</span></label>
+        </div>
+
+        <h3>[세척 적혈구]</h3>
+        <div class="check-grid">
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>아나필락시스 등 중증 알레르기 경험</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>IgA 결핍 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>합토글로빈(Haptoglobin) 결핍 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>신생아/미숙아 (급속수혈이나 대량수혈로 인해 부정맥에 취약 - 고칼륨혈증 예방)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>신부전/콩팥병 (급속수혈이나 대량수혈로 인해 부정맥에 취약 - 고칼륨혈증 예방)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>SVC/심방 내 라인 보유 환자(급속수혈이나 대량수혈로 인해 부정맥에 취약 - 고칼륨혈증 예방)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="WS"><span>산모 혈액 수혈(NAIT 환아)</span></label>
+        </div>
+
+        <h3>[방사선 조사 - TA-GVHD 예방]</h3>
+        <div class="check-grid">
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>면역결핍/부전 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>조혈모세포/장기이식 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>세포 채집 7일 전~채집 기간 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>백혈병/악성 림프종 환자</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>T세포 억제제(Fludarabine 등) 복용</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>MDS/재생불량성빈혈 (특히 ATG 치료)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>고형암 환자 (항암/방사선 요법 중)</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>혈연자(가족) 헌혈 혈액 수혈</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>HLA 적합/유사 성분 수혈</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>채혈 후 3일 이내 신선혈 수혈</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>태아/미숙아/저체중아/신생아 교환수혈</span></label>
+            <label class="check-item"><input type="checkbox" class="logic" data-type="IR"><span>심혈관계 수술 환자</span></label>
+        </div>
+    </div>
+
+    <div class="result-panel">
+        <div class="result-content">
+            <span class="result-title">최종 선택 제형 (처방명 확인):</span>
+            <span id="final-product" class="result-name">농축적혈구 (기본)</span>
+            
+            <div id="manage-basic" class="manage-card visible">
+                [기본] 18-20G 사용(소아 22~24G), 초기 15분 50mL/hr로 천천히 주입 후 이상이 없으면, <span class="important-txt">2시간 내(최대 4시간 이내) 완료</span>, NS 외 혼합금지. 대량 수혈(성인 50mL/kg/hr 이상)이나 한랭응집소 보유 환자는 가온 장치 준비 필요(42℃ 초과 금지). 수혈 종료 15분 이후에 Hb 수치 재확인하여 수혈 효과를 판정하도록 계획(1단위 수혈 시 약 1g/dL 상승 기대). 술후 1~2일간은 세포외액량과 혈청 알부민 감소 가능하나 바이탈이 안정화되어 있다면 보충액 투여 외에 농축적혈구, 알부민 제제나 신선동결혈장 투여가 필요하게 되는 경우는 많지 않다. 
+            </div>
+            <div id="manage-LR" class="manage-card">
+                [백혈구제거] 백혈구 제거 과정에서 85~95%만 회수되기에 <span class="important-txt">원래 적혈구 투여량의 약 105% 용량 산정</span>. ACE 억제제 복용 시 bedside filter로 제거하며 수혈 시 급격한 저혈압 주의. TA-GVHD 예방이 필요한 면역저하자 또는 혈연자간 수혈에서는 방사선 조사가 필요하며 백혈구 제거 제제로는 부족. 
+            </div>
+            <div id="manage-WS" class="manage-card">
+                [세척] 세척 과정에서 적혈구 20% 손실분 고려. 항응고제 보존액과 혈장이 제거되었으므로 1~6℃ 보관 시 <span class="important-txt">24시간 이내 수혈 완료</span> 필수. (+ 품질 : 세척 후 Hct는 80% 이하, 잔여 단백질은 0.5g 유지되는지 확인)
+            </div>
+            <div id="manage-IR" class="manage-card">
+                [방사선조사] 방사선 조사된 적혈구는 조사 후 28일 또는 원래 유효기간 중 짧은 쪽으로 만료일이 단축됨을 확인. 다음 환자에게 적혈구를 수혈할 경우, 방사선 조사 후 24시간 이내에 수혈하거나 세척 후 수혈하도록 지시 [1] 신생아 또는 미숙아 [2] 신부전 환자 [3] 대량 수혈 또는 급속 수혈이 필요한 환자 [4] ECMO(체외막산소요법) 프라이밍용 혈액.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('.logic');
+    const finalProduct = document.getElementById('final-product');
+    const mLR = document.getElementById('manage-LR');
+    const mWS = document.getElementById('manage-WS');
+    const mIR = document.getElementById('manage-IR');
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            let selectedTypes = { LR: false, WS: false, IR: false };
+            
+            checkboxes.forEach(c => {
+                if(c.checked) selectedTypes[c.dataset.type] = true;
+            });
+
+            let nameArray = [];
+            if(selectedTypes.LR) nameArray.push("백혈구여과제거");
+            if(selectedTypes.WS) nameArray.push("세척");
+            if(selectedTypes.IR) nameArray.push("방사선조사");
+
+            if(nameArray.length === 0) {
+                finalProduct.innerText = "농축적혈구 (기본)";
+            } else {
+                finalProduct.innerText = nameArray.join(" ") + " 적혈구";
+            }
+
+            // 관리 가이드 토글 및 가독성 확보
+            mLR.classList.toggle('visible', selectedTypes.LR);
+            mWS.classList.toggle('visible', selectedTypes.WS);
+            mIR.classList.toggle('visible', selectedTypes.IR);
+        });
+    });
+</script>
+</body>
+</html>
